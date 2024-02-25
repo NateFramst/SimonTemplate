@@ -16,6 +16,7 @@ namespace SimonSays
     {
         //TODO: create a List to store the pattern. Must be accessable on other screens
         public static List<int> pattern = new List<int>();
+        //track difficulty
         public static int difficulty = 0;
 
         public Form1()
@@ -28,7 +29,7 @@ namespace SimonSays
             //TODO: Launch MenuScreen
             ChangeScreen(this, new MenuScreen());
         }
-
+        //change screens
         public static void ChangeScreen(object sender, UserControl next)
         {
             Form form;

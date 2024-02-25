@@ -17,6 +17,7 @@ namespace SimonSays
             InitializeComponent();
         }
 
+        //set difficulties // gamemodes
         private void normalButton_Click(object sender, EventArgs e)
         {
             Form1.difficulty = 0;

@@ -19,8 +19,8 @@ namespace SimonSays
         private void GameOverScreen_Load(object sender, EventArgs e)
         {
             //TODO: show the length of the pattern
-
-            lengthLabel.Text = Form1.pattern.Count.ToString();
+            string score = (Form1.pattern.Count - 1).ToString(); ;
+            lengthLabel.Text = score;
         }
 
         private void closeButton_Click(object sender, EventArgs e)

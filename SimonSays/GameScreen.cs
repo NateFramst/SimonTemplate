@@ -10,37 +10,50 @@ using System.Media;
 using System.Drawing.Drawing2D;
 using System.Threading;
 using System.IO;
+using System.Windows.Media.Animation;
 
 namespace SimonSays
 {
     public partial class GameScreen : UserControl
     {
-        //funnySounds
+        //guess counter
         int guess;
+
+        //sound toggle
         bool sound = true;
 
+        //button check
         bool clicks = false;
 
+        //working varrible
         int x = 0;
 
-        List<bool> slots = new List<bool>();
-
+        //list for button postions
         Point slot1 = new Point(40, 37);
         Point slot2 = new Point(152, 37);
-        Point slot3 = new Point(40, 149);
-        Point slot4 = new Point(152, 149);
+        Point slot3 = new Point(152, 149);
+        Point slot4 = new Point(40, 149);
 
         List<Point> slotsL = new List<Point>();
 
+        //temp list
+
         List<Point> temp = new List<Point>();
+
+        //list to store buttons
 
         List<Button> buttons = new List<Button>();
 
+        //randomizer
+
         Random random = new Random();
+
+        //delay times
 
         int inBetweenTime = 700;
         int waitTime = 300;
 
+        //sounds
         SoundPlayer greenSound = new SoundPlayer(Properties.Resources.green);
         SoundPlayer redSound = new SoundPlayer(Properties.Resources.red);
         SoundPlayer blueSound = new SoundPlayer(Properties.Resources.blue);
@@ -55,6 +68,7 @@ namespace SimonSays
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
+            //fill lists
             slotsL.Add(slot1);
             slotsL.Add(slot2);
             slotsL.Add(slot3);
@@ -64,7 +78,33 @@ namespace SimonSays
             buttons.Add(blueButton);
             buttons.Add(yellowButton);
 
-            
+            //check difficulty
+            if (Form1.difficulty == 0)
+            {
+                gamemodeLabel.Text = "Normal Mode";
+            }
+            if(Form1.difficulty == 1)
+            {
+                gamemodeLabel.Text = "Reverse Mode";
+            }
+            if (Form1.difficulty == 2)
+            {
+                gamemodeLabel.Text = "Sound Mode";
+            }
+            if (Form1.difficulty == 3)
+            {
+                gamemodeLabel.Text = "Moving Mode";
+            }
+            if (Form1.difficulty == 5)
+            {
+                gamemodeLabel.Text = "PinWheel Mode";
+            }
+            if (Form1.difficulty == 4)
+            {
+                gamemodeLabel.Text = "Impossible Mode (Sound, Moving, and Reverse)";
+            }
+
+            //reset pattern
             if (Form1.pattern != null)
             {
                 Form1.pattern.Clear();
@@ -74,7 +114,7 @@ namespace SimonSays
             //pause for a bit
             Thread.Sleep(500);
             
-
+            //initalize sequence 
             ColourStuff(sound, Color.LightGreen, Color.ForestGreen, greenButton, greenSound);
 
             ColourStuff(sound, Color.Red, Color.DarkRed, redButton, redSound);
@@ -92,6 +132,8 @@ namespace SimonSays
             ComputerTurn();
         }
 
+
+        //when button is pressed
         private void ColourStuff(bool sound, Color firstColour, Color secondColour, Button button, SoundPlayer sounds)
         {
             button.BackColor = firstColour;
@@ -106,6 +148,7 @@ namespace SimonSays
             Thread.Sleep(waitTime);
         }
 
+        //muliti audio
         private void Loud()
         {
             var RedSound = new System.Windows.Media.MediaPlayer();
@@ -124,6 +167,8 @@ namespace SimonSays
             GreenSound.Play();
             YellowSound.Play();
             BlueSound.Play();
+
+            
 
             greenButton.BackColor = Color.LightPink;
             redButton.BackColor = Color.LightPink;
@@ -144,17 +189,18 @@ namespace SimonSays
         private void ComputerTurn()
         {
             clicks = false;
-
+            //reverse mode check
             if (Form1.pattern.Count >= 1 && Form1.difficulty == 1 || Form1.pattern.Count >= 1 &&  Form1.difficulty == 4)
             {
                 Form1.pattern.Reverse();
             }
 
+            //create pattern 
             Random radNum = new Random();
             Form1.pattern.Add(radNum.Next(0, 4));
 
 
-            //TODO: create a for loop that shows each value in the pattern by lighting up approriate button
+            // loop that shows each value in the pattern by lighting up approriate button
             for (int i = 0; i < Form1.pattern.Count; i++)
             {
                 if (Form1.difficulty == 0 || Form1.difficulty == 1 || Form1.difficulty == 3 || Form1.difficulty == 5)
@@ -164,11 +210,11 @@ namespace SimonSays
                     {
                         ColourStuff(sound, Color.LightGreen, Color.ForestGreen, greenButton, greenSound);
                     }
-                    else if (Form1.pattern[i] == 1)
+                    else if (Form1.pattern[i] == 2)
                     {
                         ColourStuff(sound, Color.Blue, Color.DarkBlue, blueButton, blueSound);
                     }
-                    else if (Form1.pattern[i] == 2)
+                    else if (Form1.pattern[i] == 1)
                     {
                         ColourStuff(sound, Color.Red, Color.DarkRed, redButton, redSound);
                     }
@@ -204,16 +250,18 @@ namespace SimonSays
                     
                 }
             }
+            //reverse mode check
             if (Form1.difficulty == 1 || Form1.difficulty == 4)
             {
                 Form1.pattern.Reverse();
             }
 
+            //pinwheel mode check
             if (Form1.difficulty == 5)
             {
                 timer1.Enabled = true;
             }
-
+            //random mode check
             if (Form1.difficulty == 3 || Form1.difficulty == 4)
             {
                 MovingButtons();
@@ -227,7 +275,7 @@ namespace SimonSays
 
         }
 
-        //TODO: create one of these event methods for each button
+       //button clicks
         private void greenButton_Click(object sender, EventArgs e)
         {
             if (clicks == true)
@@ -241,7 +289,7 @@ namespace SimonSays
         {
             if (clicks == true)
             {
-              ButtonStuff(2);
+              ButtonStuff(1);
             } 
         }
 
@@ -257,22 +305,23 @@ namespace SimonSays
         {
             if (clicks == true)
             {
-                ButtonStuff(1);
+                ButtonStuff(2);
             }
         }
 
         public void ButtonStuff(int button)
         {
+            //check patterns
             if (Form1.difficulty == 0 || Form1.difficulty == 1 ||Form1.difficulty == 3 || Form1.difficulty == 5)
             {
                 sound = true;
                 if (Form1.pattern[guess] == button)
                 {
-                    if (button == 1)
+                    if (button == 2)
                     {
                         ColourStuff(sound, Color.Blue, Color.DarkBlue, blueButton, blueSound);
                     }
-                    else if (button == 2)
+                    else if (button == 1)
                     {
                         ColourStuff(sound, Color.Red, Color.DarkRed, redButton, redSound);
                     }
@@ -336,6 +385,7 @@ namespace SimonSays
             }
         }
 
+        //end game
         public void GameOver()
         {
             //TODO: Play a game over sound
@@ -347,12 +397,13 @@ namespace SimonSays
             Form1.ChangeScreen(this, new GameOverScreen());
         }
 
+        //move buttons randomly 
         public void MovingButtons()
         {
 
             Thread.Sleep(500);
 
-
+            //reorder list 
             for (int i = 0; i < 4; i++)
             {
                 int store = random.Next(0, (slotsL.Count - 1));
@@ -367,6 +418,7 @@ namespace SimonSays
            
             temp.Clear();
 
+            //move buttons
             for (int i = 0; i < 4; i++)
             {
                 buttons[i].Location = new Point(slotsL[i].X, slotsL[i].Y);
@@ -374,8 +426,10 @@ namespace SimonSays
             Refresh();
         }
 
+        //spin buttons for pinwheel
         private void timer1_Tick(object sender, EventArgs e)
         {
+            //move buttons
             for (int i = 0; i < 4;i++)
             {
                 
@@ -385,6 +439,28 @@ namespace SimonSays
                 }
                 buttons[i].Location = new Point(slotsL[x + 1].X, slotsL[x+1].Y);
                 x++;
+
+            }
+            Refresh();
+
+            //reorder list 
+            temp.Add(slotsL[1]);
+            temp.Add(slotsL[2]);
+            temp.Add(slotsL[3]);
+            temp.Add(slotsL[0]);
+
+            slotsL.Clear();
+
+            for (int j = 0; j < 4; j++)
+            {
+                slotsL.Add(temp[j]);
+            }
+
+            temp.Clear();
+            //spin faster
+            if (timer1.Interval > 50)
+            {
+                timer1.Interval -= 5;
             }
         }
     }

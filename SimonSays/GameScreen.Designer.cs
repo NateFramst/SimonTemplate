@@ -34,6 +34,7 @@
             this.redButton = new System.Windows.Forms.Button();
             this.greenButton = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.gamemodeLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // yellowButton
@@ -81,11 +82,22 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // gamemodeLabel
+            // 
+            this.gamemodeLabel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.gamemodeLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.gamemodeLabel.Location = new System.Drawing.Point(100, 11);
+            this.gamemodeLabel.Name = "gamemodeLabel";
+            this.gamemodeLabel.Size = new System.Drawing.Size(100, 23);
+            this.gamemodeLabel.TabIndex = 4;
+            this.gamemodeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // GameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.gamemodeLabel);
             this.Controls.Add(this.yellowButton);
             this.Controls.Add(this.blueButton);
             this.Controls.Add(this.redButton);
@@ -105,5 +117,6 @@
         private System.Windows.Forms.Button redButton;
         private System.Windows.Forms.Button greenButton;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label gamemodeLabel;
     }
 }
