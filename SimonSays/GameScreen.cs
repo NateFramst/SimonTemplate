@@ -129,6 +129,8 @@ namespace SimonSays
 
             Thread.Sleep(1000);
 
+            gamemodeLabel.Text = "Computer Turn";
+
             ComputerTurn();
         }
 
@@ -189,6 +191,11 @@ namespace SimonSays
         private void ComputerTurn()
         {
             clicks = false;
+
+            gamemodeLabel.Text = "Computer Turn";
+
+            waitTime = 300;
+
             //reverse mode check
             if (Form1.pattern.Count >= 1 && Form1.difficulty == 1 || Form1.pattern.Count >= 1 &&  Form1.difficulty == 4)
             {
@@ -273,6 +280,7 @@ namespace SimonSays
 
             clicks = true;
 
+            gamemodeLabel.Text = "Player Turn";
         }
 
        //button clicks
@@ -311,6 +319,9 @@ namespace SimonSays
 
         public void ButtonStuff(int button)
         {
+
+            waitTime = 50;
+
             //check patterns
             if (Form1.difficulty == 0 || Form1.difficulty == 1 ||Form1.difficulty == 3 || Form1.difficulty == 5)
             {
